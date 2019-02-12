@@ -33,14 +33,14 @@ void loop() {
     
     RiempiStringa(mossagiocata);
     IniziaGiocatore1();
-    
     somma = somma + mossagiocata;
     ScriviMeta();
-    VediChiHaVinto();
+    if(!VediChiHaVinto()){
     IniziaGiocatore2();
     somma = somma + mossagiocata;
     ScriviMeta();
     VediChiHaVinto();
+    }
   }
 }
 
@@ -251,20 +251,22 @@ String RiempiStringa(int n){
 }
 
 
-void VediChiHaVinto()
+bool VediChiHaVinto()
 {
+  Serial.println("s: " + somma);
+  Serial.print("m: " + meta);
   if (somma == meta){
     if(giocatore1){
-      //Serial.print("somma=meta");
+      Serial.print("sumg1");
       lcd.setCursor(0, 0);
       lcd.print("G1 vince");
-      primavolta = true;
+      return true;
     }
     else{
-      //Serial.print("somma=meta");
+      Serial.print("sumg2");
       lcd.setCursor(0, 0);
       lcd.print(" G2 vince");
-      primavolta = true;
+      return true;
     }
   }
   if (somma > meta){
@@ -272,13 +274,14 @@ void VediChiHaVinto()
       //Serial.print("somma>meta");
       lcd.setCursor(0, 0);
       lcd.print("G2 vince");
-      primavolta = true;
+      return true;
     }
     else{
       //Serial.print("somma>meta");
       lcd.setCursor(0, 0);
       lcd.print("G1 vince");
-      primavolta = true;
+      return true;
     }
   }
+  return false;
 }
